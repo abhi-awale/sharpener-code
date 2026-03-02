@@ -21,6 +21,20 @@ app.get('/categories', (req, res) => {
 
 app.post('/categories', (req, res) => {
     res.send('A new category has been created.');
+});
+
+app.get('/welcome/:username', (req, res) => {
+    
+    let {username} = req.params;
+    let {role} = req.query;
+
+    let outputStr = 'Welcome ' + username;
+
+    if(role) {
+        outputStr += ', your role is ' + role;
+    }
+
+    res.send(outputStr);
 })
 
 app.use((req, res) => {
