@@ -1,4 +1,7 @@
 const express = require('express');
+const welcomeRouter = require('./routes/welcome');
+const productRouter = require('./routes/product');
+const categoryRouter = require('./routes/category');
 
 const app = express();
 
@@ -8,35 +11,9 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/products', (req, res) => {
-    res.send('Here is the list of all products.');
-})
-
-app.post('/products', (req, res) => {
-    res.send('A new product has been added.');
-})
-
-app.get('/categories', (req, res) => {
-    res.send('Here is the list of all categories.');
-})
-
-app.post('/categories', (req, res) => {
-    res.send('A new category has been created.');
-});
-
-app.get('/welcome/:username', (req, res) => {
-    
-    let {username} = req.params;
-    let {role} = req.query;
-
-    let outputStr = 'Welcome ' + username;
-
-    if(role) {
-        outputStr += ', your role is ' + role;
-    }
-
-    res.send(outputStr);
-})
+app.use('/welcome', welcomeRouter);
+app.use('/products', productRouter);
+app.use('/categories', categoryRouter);
 
 app.use((req, res) => {
     res.set('Content-Type', 'text/html');
