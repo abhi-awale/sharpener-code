@@ -3,6 +3,8 @@ const welcomeRouter = require('./routes/welcome');
 const productRouter = require('./routes/product');
 const categoryRouter = require('./routes/category');
 
+const bookRouter = require('./routes/book');
+
 const app = express();
 
 app.use((req, res, next) => {
@@ -14,6 +16,8 @@ app.use((req, res, next) => {
 app.use('/welcome', welcomeRouter);
 app.use('/products', productRouter);
 app.use('/categories', categoryRouter);
+
+app.use('/books', bookRouter);
 
 app.use((req, res) => {
     res.set('Content-Type', 'text/html');
