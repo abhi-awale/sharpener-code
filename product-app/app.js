@@ -4,6 +4,7 @@ const app = express();
 
 app.use((req, res, next) => {
   res.set('Content-Type', 'application/json');
+  console.log(req.method, req.url);
   next();
 });
 
