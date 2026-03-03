@@ -18,8 +18,7 @@ app.use('/cart', cartRoutes);
 
 
 app.use((req, res ) => {
-    res.status = 404;
-    res.send('<h1>Invalid Request</h1>');
+    res.status(404).send('<h1>Invalid Request</h1>');
 })
 
 app.listen(PORT, () => {
