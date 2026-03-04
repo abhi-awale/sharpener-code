@@ -16,6 +16,24 @@ connection.connect((err) => {
     }
     
     console.log('connection has been created!');
+
+    const execStatement = `
+    create table students (
+        id int primary key,
+        username varchar(20) not null,
+        email varchar(20)
+    );
+    `;
+
+    connection.execute(execStatement, (err) => {
+        if(err) {
+            console.log(err);
+            connection.end();
+            return;
+        }
+
+        console.log('Table created!');
+    })
 });
 
 app.get('/', (req, res) => {
