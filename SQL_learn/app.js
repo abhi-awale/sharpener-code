@@ -1,45 +1,32 @@
 const express = require('express');
-const mysql = require('mysql2');
+const studentsRoutes = require('./routes/studentsRoutes');
+const db = require('./utils/db-connection');
+
+db.connect();
+db.createTable();
 
 const app = express();
-const connection = mysql.createConnection({
-        host : 'localhost',
-        user:'root',
-        password : 'root123',
-        database: 'test'
-    });
 
-connection.connect((err) => {
-    if(err) {
-        console.log(err);
-        return;
-    }
-    
-    console.log('connection has been created!');
+const PORT  = 4000;
 
-    const execStatement = `
-    create table students (
-        id int primary key,
-        username varchar(20) not null,
-        email varchar(20)
-    );
-    `;
+app.use(express.json());
 
-    connection.execute(execStatement, (err) => {
-        if(err) {
-            console.log(err);
-            connection.end();
-            return;
-        }
+app.use((req, res, next) => {
+    console.log(req.method, req.url);
+    next();
+})
 
-        console.log('Table created!');
-    })
+app.use('/students', studentsRoutes);
+
+app.use((req, res) => {
+    res.status(404).json({status:false, message:"Invalid request, check request URI."});
+    return;
 });
 
-app.get('/', (req, res) => {
-    res.send('Hello World');
-});
-
-app.listen(4000, () => {
+const server = app.listen(PORT, () => {
     console.log('Server running on port 4000');
+});
+
+server.on('error', (err) => {
+    console.error(err.message);
 })
