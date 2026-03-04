@@ -1,99 +1,26 @@
 const express = require('express');
-const mysql = require('mysql2');
+const db = require('./utils/db-connection');
+const userRoutes = require('./routes/userRoutes');
+const busRoutes = require('./routes/busRoutes');
 
 const app = express();
 
-const connection = mysql.createConnection({
-    host:'localhost',
-    user: 'root',
-    password : 'root123',
-    database: 'bus_booking'
+app.use(express.json());
+
+db.connect();
+db.createTables();
+
+app.use((req, res, next) => {
+    console.log(req.method, req.url);
+    next();
 });
 
-connection.connect((err) => {
-    if(err) {
-        console.log(err);
-        return;
-    }
+app.use('/users', userRoutes);
+app.use('/buses', busRoutes);
 
-    console.log('connected to database successfully!');
-
-    const usersTable = `
-        create table users(
-            id int primary key,
-            name varchar(20) not null,
-            email varchar(20) not null
-        );
-    `;
-
-    connection.execute(usersTable, (err) => {
-        if(err) {
-            console.log(err);
-            connection.end();
-            return;
-        }
-
-        console.log('Users table created!');
-    });
-
-    const busesTable = `
-        create table buses(
-            id int primary key,
-            busNumber int not null,
-            totalSeats int,
-            availableSeats int
-        );  
-    `;
-
-    connection.execute(busesTable, (err) => {
-        if(err) {
-            console.log(err);
-            connection.end();
-            return;
-        }
-
-        console.log('Buses table created!');
-    });
-
-    const bookingsTable = `
-        create table bookings(
-            id int primary key,
-            seatNumber int
-        );
-    `;
-
-    connection.execute(bookingsTable, (err) => {
-        if(err) {
-            console.log(err);
-            connection.end();
-            return;
-        }
-
-        console.log('Bookings table created!');
-    });
-
-    const paymentsTable = `
-        create table payments(
-            id int primary key,
-            amountPaid int,
-            paymentStatus varchar(20)
-        );
-    `;
-
-    connection.execute(paymentsTable, (err) => {
-        if(err) {
-            console.log(err);
-            connection.end();
-            return;
-        }
-
-        console.log('Payments table created!');
-    });
-});
-
-app.get('/', (req, res) => {
-    res.send('Hello World');
-});
+app.use((req, res) => {
+    res.status(404).json({status: false, message:'Invalid request!'})
+})
 
 app.listen(4000, ()=> {
     console.log('Server running on port 4000!');
