@@ -1,0 +1,186 @@
+/* ===== BASIC RESET ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background: #f4f6f8;
+  color: #333;
+  padding: 20px;
+}
+
+/* ===== HEADER ===== */
+.header {
+  background: #ffffff;
+  padding: 20px;
+  text-align: center;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.main-heading {
+  margin-bottom: 6px;
+}
+
+#totalBooking {
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.sub-heading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.sub-heading input {
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* ===== FORM ===== */
+@media (max-width: 900px) {
+    .form-div{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .booking-form{
+        align-self: center;
+    }
+}
+
+.form-div{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap:15px;
+}
+
+.booking-form {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  display:flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 520px;
+  gap: 15px;
+  
+}
+
+.booking-form div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  width: 100%;
+}
+
+.booking-form input {
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  /* width:100% */
+}
+
+.submit-btn {
+  padding: 8px 14px;
+  border: none;
+  background: #2563eb;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  /* width: 100%; */
+}
+
+.submit-btn:hover {
+  background: #1d4ed8;
+}
+
+/* ===== LIST ===== */
+.booking-list {
+  list-style: none;
+  flex: 1;
+  padding: 0;
+  margin: 0;
+}
+
+.list-item {
+  background: #ffffff;
+  padding: 12px 15px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  align-items: center;
+  column-gap: 12px;
+}
+
+.name {
+  font-weight: bold;
+}
+
+.seatNo {
+  color: #2563eb;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* ===== ACTION BUTTONS ===== */
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.edit-btn {
+  padding: 4px 10px;
+  border: 1px solid #2563eb;
+  background: #fff;
+  color: #2563eb;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.edit-btn:hover {
+  background: #2563eb;
+  color: #fff;
+}
+
+.delete-btn {
+  padding: 4px 10px;
+  border: 1px solid #dc2626;
+  background: #fff;
+  color: #dc2626;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background: #dc2626;
+  color: #fff;
+}
+
+/* ------- message popup ----------- */
+.popup {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #4caf50;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 6px;
+  display: none;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  font-weight: 600;
+}
