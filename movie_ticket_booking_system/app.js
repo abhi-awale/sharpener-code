@@ -3,6 +3,8 @@ const db = require('./utils/db-connection');
 const cors = require('cors');
 const app = express();
 
+const userRoutes = require('./routes/userRoutes');
+
 app.use(express.json());
 
 app.use(cors());
@@ -14,9 +16,15 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get('/ticket', (req, res) => {
-    return res.status(200).json({data:[]});
-});
+app.use('/ticket', userRoutes);
+
+app.use((req, res) => {
+    console.log('invalid route');
+    return res.status(404).json({
+        success : false,
+        message : 'Invalid request!',
+    });
+})
 
 db.sync()
     .then(()=>{

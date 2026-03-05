@@ -35,9 +35,9 @@ async function handleLoadAllBookings(event) {
 
     try {
         const response = await axios.get(apiEndpoint + "/ticket");
-        console.log(response);
-        if (response.status == 200 && response.data.length > 0) {
-            const bookings = response.data;
+        console.log(response.data.data);
+        if (response.status == 200 && response.data.data.length > 0) {
+            const bookings = response.data.data;
             for (let booking of bookings) {
                 seatsAallocated.set(booking.seatNo, booking);
                 displayBookingRecord(booking);
@@ -83,7 +83,8 @@ async function handleTicketBooking(event) {
     try {
         const response = await axios.post(apiEndpoint + "/ticket", { name, seatNo });
         if (response.status == 201) {
-            const booking = response.data;
+            const booking = response.data.data;
+            console.log(typeof(booking.seatNo));
             seatsAallocated.set(booking.seatNo, booking);
             form.reset();
             if(bookingCount == 0) {
@@ -103,7 +104,7 @@ async function handleTicketBooking(event) {
 async function handleUpdateBooking(name, seatNo) {
 
     try{
-        const response = await axios.put(apiEndpoint + '/ticket/' + editObject._id, {name, seatNo});
+        const response = await axios.put(apiEndpoint + '/ticket/' + editObject.id, {name, seatNo});
 
         if(response && response.status == 200 || response.status == 204) {
             showSuccessPopup('Booking has been updated successfully!');
@@ -180,8 +181,8 @@ async function handleEditBooking(event) {
 
         if(response && response.status == 200) {
             EditList = li;
-            editObject = response.data;
-            displayEditBooking(response.data);
+            editObject = response.data.data;
+            displayEditBooking(response.data.data);
         }
     }catch(err){
         console.log(err);
@@ -237,7 +238,7 @@ function displayBookingRecord(booking) {
     const editBtn = document.createElement('button');
     editBtn.type = 'button';
     editBtn.classList.add('edit-btn');
-    editBtn.setAttribute('booking-id', booking._id);
+    editBtn.setAttribute('booking-id', booking.id);
     editBtn.setAttribute('booking-seat', booking.seatNo);
     editBtn.textContent = 'Edit';
 
@@ -249,7 +250,7 @@ function displayBookingRecord(booking) {
     const deleteBtn = document.createElement('button');
     deleteBtn.type = 'button';
     deleteBtn.classList.add('delete-btn');
-    deleteBtn.setAttribute('booking-id', booking._id);
+    deleteBtn.setAttribute('booking-id', booking.id);
     deleteBtn.setAttribute('booking-seat', booking.seatNo);
     deleteBtn.textContent = 'Delete';
 
@@ -280,8 +281,11 @@ function displayNoBookingFound() {
 // Helper functions
 
 function isSeatAvailable(seatNo) {
+    console.log(typeof(seatNo));
+    console.log(seatsAallocated);
     if (seatsAallocated.has(seatNo)) {
-        if(editObject && editObject._id == seatsAallocated.get(seatNo)._id) {
+        console.log(editObject);
+        if(editObject && editObject.id == seatsAallocated.get(seatNo).id) {
             return true;
         }
         return false;

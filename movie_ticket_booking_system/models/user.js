@@ -13,9 +13,8 @@ const User = db.define('users', {
         allowNull:false
     },
     seatNo : {
-        type:DataTypes.INTEGER,
-        allowNull:false,
-        unique:true
+        type:DataTypes.STRING,
+        allowNull:false
     }
 });
 
