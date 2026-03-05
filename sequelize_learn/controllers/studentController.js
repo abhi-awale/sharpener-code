@@ -25,6 +25,111 @@ const addNewEntry = async(req, res) => {
     }
 }
 
+const fetchAllEntries = async(req, res) => {
+    try{
+        const students = await Student.findAll();
+
+        if(students.length == 0) {
+            throw new Error('Records not found');
+        }
+        return successResponse(res, {
+            message:"Fatched all records successfully!",
+            data:students
+        });
+
+    } catch(err) {
+       return errorResponse(res, {
+            message : err.message,
+            err : err
+       });
+    }
+}
+
+const fetchSingleEntry = async(req, res) => {
+    const {id} = req.params;
+    try{
+        const student = await Student.findByPk(id);
+
+        if(!student) {
+            throw new Error('Records not found');
+        }
+
+        return successResponse(res, {
+            message:"Fatched record successfully!",
+            data:student
+        });
+
+    } catch(err) {
+        return errorResponse(res, {
+            message : err.message,
+            err : err
+       });
+    }
+}
+
+const updateEntry = async(req, res) => {
+    const {id} = req.params;
+
+    const {name, email} = req.body;
+
+    try{
+        const student = await Student.findByPk(id);
+
+        if(!student) {
+            throw new Error('Records not found');
+        }
+
+        if(name) {
+            student.username = name;
+        }
+
+        if(email) {
+            student.email = email;
+        }
+
+        await student.save();
+
+        return successResponse(res, {
+            message:"Record updated successfully!",
+            data:student
+        });
+
+    } catch(err) {
+        return errorResponse(res, {
+            message : err.message,
+            err : err
+       });
+    }
+}
+
+const deleteEntry = async(req, res) => {
+    const {id} = req.params;
+
+    try{
+
+        await Student.destroy({
+            where:{
+                id:id
+            },
+            force:true
+        });
+
+        return successResponse(res, {
+            message:"Record deleted successfully!",
+        });
+
+    }catch(err) {
+        return errorResponse(res, {
+            message : err.message,
+            err : err
+       });
+    }
+}
+
 module.exports = {
-    addNewEntry
+    addNewEntry,
+    fetchAllEntries,
+    fetchSingleEntry,
+    updateEntry,
+    deleteEntry
 }
