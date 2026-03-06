@@ -1,0 +1,38 @@
+const {Student} = require('../models');
+
+const addNewEntry = async(req, res) => {
+    const {name, email, cardNumber} = req.body;
+
+    try{
+        const student = await Student.create({
+            name, email
+        });
+
+        if(!student) {
+            throw new Error('Failed to create Student.')
+        }
+
+        const cardDetails = await student.createIdentityCard({
+            cardNumber
+        });
+
+        return res.status(201).json({
+            success: true,
+            message: "Student created successfully!",
+            data : { student, cardDetails}
+        });
+
+    } catch(err) {
+        return res.status(500).json({
+            success: false,
+            message: "Request failed!",
+            err: err
+        });
+    }
+
+}
+
+
+module.exports = {
+    addNewEntry
+}
