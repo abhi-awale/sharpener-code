@@ -1,4 +1,4 @@
-const {Student, IdentityCard, Department} = require('../models');
+const {Student, IdentityCard, Department, Course} = require('../models');
 
 const addNewEntry = async(req, res) => {
     const {name, email, departmentId, cardNumber} = req.body;
@@ -42,9 +42,12 @@ const fetchAllEntries = async(req, res) => {
             include: [{
                 model : IdentityCard,
                 attributes :[['cardNumber', 'cardNo']]
-            },{
+            }, {
                 model: Department,
                 attributes:[['name', 'department']]
+            }, {
+                model: Course,
+                attributes:['name', 'courses']
             }],
             raw: true
         }
@@ -72,8 +75,41 @@ const fetchAllEntries = async(req, res) => {
     }
 }
 
+const addStudentCourses = async(req, res) => {
+    const {id} = req.params;
+    const {courseIds} = req.body;
+
+    try{
+
+        const student = await Student.findByPk(id);
+
+        if(!student) {
+            throw new Error('Student not found');
+        }
+
+        await student.addCourses(courseIds); 
+
+        const studentDetails = await Student.findByPk(id, {
+            include:[{model: IdentityCard}, {model: Department}, {model: Course}]
+        });
+
+        return res.status(201).json({
+            success: true,
+            message: "Courses added.",
+            data: studentDetails
+        })
+    } catch(err) {
+        return res.status(500).json({
+            success: false,
+            message: "Internal Server error!",
+            err: err
+        });
+    }
+}
+
 
 module.exports = {
     addNewEntry,
-    fetchAllEntries
+    fetchAllEntries,
+    addStudentCourses
 }

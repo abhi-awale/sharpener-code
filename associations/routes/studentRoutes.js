@@ -7,4 +7,6 @@ router.post('/', studentController.addNewEntry);
 
 router.get('/', studentController.fetchAllEntries);
 
+router.post('/:id/courses', studentController.addStudentCourses)
+
 module.exports = router;
