@@ -1,4 +1,4 @@
-const {Student} = require('../models');
+const {Student, IdentityCard} = require('../models');
 
 const addNewEntry = async(req, res) => {
     const {name, email, cardNumber} = req.body;
@@ -32,7 +32,35 @@ const addNewEntry = async(req, res) => {
 
 }
 
+const fetchAllEntries = async(req, res) => {
+
+    try{
+
+        const students = await Student.findAll({
+            attributes: ['id', 'name', 'email'],
+            include: [{
+                model : IdentityCard,
+                attributes :['cardNumber']
+            }]
+        });
+
+        return res.status(201).json({
+            success: true,
+            message: "Students fetched successfully!",
+            data : students
+        });
+
+    } catch(err) {
+        return res.status(500).json({
+            success: false,
+            message: "Request failed!",
+            err: err
+        });
+    }
+}
+
 
 module.exports = {
-    addNewEntry
+    addNewEntry,
+    fetchAllEntries
 }
