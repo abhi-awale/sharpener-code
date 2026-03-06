@@ -7,4 +7,6 @@ router.post('/', busController.addNewBus);
 
 router.get('/available/:seats', busController.fetchBusByAvailability)
 
+router.get('/:id/bookings', busController.fetchBookingsByBus);
+
 module.exports = router;

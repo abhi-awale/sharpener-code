@@ -2,6 +2,9 @@ const express = require('express');
 const db = require('./utils/db-connection');
 const userRoutes = require('./routes/userRoutes');
 const busRoutes = require('./routes/busRoutes');
+const bookingRoutes = require('./routes/bookingRoutes');
+
+require('./models');
 
 const app = express();
 
@@ -14,6 +17,7 @@ app.use((req, res, next) => {
 
 app.use('/users', userRoutes);
 app.use('/buses', busRoutes);
+app.use('/bookings', bookingRoutes);
 
 app.use((req, res) => {
     res.status(404).json({status: false, message:'Invalid request!'})

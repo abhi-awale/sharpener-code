@@ -1,4 +1,5 @@
-const Bus = require('../models/bus');
+const {Sequelize} = require('sequelize');
+const {Bus, User, Booking} = require('../models');
 const { Op } = require("sequelize");
 
 const addNewBus = async(req, res) => {
@@ -44,7 +45,50 @@ const fetchBusByAvailability = async(req, res) => {
     }
 }
 
+const fetchBookingsByBus = async(req, res) => {
+    const {id} = req.params;
+
+    try{
+
+        const query = {
+            where: { id },
+            attributes: [
+                'id',
+                [Sequelize.col('Bookings.seatNumber'), 'seatNumber'],
+                [Sequelize.col('Bookings.User.name'), 'user.name'],
+                [Sequelize.col('Bookings.User.email'), 'user.email'],
+            ],
+            include:[
+                {
+                    model:Booking,
+                    attributes:[],
+                    include:[{
+                        model:User,
+                        attributes:[]
+                    }]
+                }
+            ],
+            raw:true
+        }
+
+        const busWithBookingDetails = await Bus.findAll(query);
+
+        res.status(200).json({
+            status: true,
+            message: "Record fetched successfully!",
+            data: busWithBookingDetails
+        });
+        return;
+
+    } catch(err) {
+        console.log(err);
+        res.status(500).json({ status:false, message:"Internal server error."});
+        return;
+    }
+}
+
 module.exports = {
     addNewBus,
-    fetchBusByAvailability
+    fetchBusByAvailability,
+    fetchBookingsByBus
 }

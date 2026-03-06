@@ -7,4 +7,6 @@ router.post('/', userController.addNewUser);
 
 router.get('/', userController.fetchAllUsers);
 
+router.get('/:id/bookings', userController.fetchUserBookings);
+
 module.exports = router;
