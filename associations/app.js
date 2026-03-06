@@ -1,6 +1,7 @@
 const express = require('express');
 const db = require('./utils/db-connection');
 const studentRoutes = require('./routes/studentRoutes');
+const departmentRoutes = require('./routes/departmentRoutes'); 
 
 require('./models');
 
@@ -15,6 +16,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/students', studentRoutes);
+app.use('/departments', departmentRoutes);
 
 app.use((req, res) => {
     res.status(404).json({

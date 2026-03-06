@@ -1,11 +1,11 @@
-const {Student, IdentityCard} = require('../models');
+const {Student, IdentityCard, Department} = require('../models');
 
 const addNewEntry = async(req, res) => {
-    const {name, email, cardNumber} = req.body;
+    const {name, email, departmentId, cardNumber} = req.body;
 
     try{
         const student = await Student.create({
-            name, email
+            name, email, DepartmentId: departmentId
         });
 
         if(!student) {
@@ -34,15 +34,28 @@ const addNewEntry = async(req, res) => {
 
 const fetchAllEntries = async(req, res) => {
 
-    try{
+    const {departmentId} = req.query;
 
-        const students = await Student.findAll({
+    try{
+        let query = {
             attributes: ['id', 'name', 'email'],
             include: [{
                 model : IdentityCard,
-                attributes :['cardNumber']
-            }]
-        });
+                attributes :[['cardNumber', 'cardNo']]
+            },{
+                model: Department,
+                attributes:[['name', 'department']]
+            }],
+            raw: true
+        }
+
+        if(departmentId) {
+            query.where = {
+                DepartmentId : departmentId
+            }
+        }
+
+        const students = await Student.findAll(query);
 
         return res.status(201).json({
             success: true,
