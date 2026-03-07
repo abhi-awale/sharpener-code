@@ -7,6 +7,8 @@ router.post('/', postController.addNewEntry);
 
 router.get('/', postController.fetchAllEntries);
 
-router.post('/:id/comment', postController.addComment);
+router.post('/:id/comments', postController.addComment);
+
+router.get('/:id/comments', postController.fetchComments);
 
 module.exports = router;

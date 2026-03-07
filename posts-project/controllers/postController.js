@@ -1,6 +1,6 @@
 
 const response = require('../utils/response');
-const {addPost, fetchAllPost, fetchPostById, addCommentToPost} = require('../services/postServices');
+const {addPost, fetchAllPost, fetchPostById, addCommentToPost, fetchPostComments} = require('../services/postServices');
 
 const addNewEntry = async (req, res) => {
     const { link, description } = req.body;
@@ -71,8 +71,40 @@ const addComment = async (req, res) => {
     }
 }
 
+const fetchComments = async (req, res) => {
+    const {id} = req.params;
+
+    try{
+
+        const post = await fetchPostById(id);
+
+        if(!post) {
+            return response.error(res, {
+                statusCode: 404,
+                message: "Post not found",
+            });
+        }
+
+        const comments = await fetchPostComments(post);
+
+        return response.success(res, {
+            statusCode:200,
+            message:"Comments fetched successfully",
+            data: comments
+        });
+
+    }catch (err) {
+        console.log(err)
+        return response.error(res, {
+            message: "Internal server error.",
+            err: err
+        });
+    }
+}
+
 module.exports = {
     addNewEntry,
     fetchAllEntries,
-    addComment
+    addComment,
+    fetchComments
 }
