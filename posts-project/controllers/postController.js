@@ -15,6 +15,7 @@ const addNewEntry = async (req, res) => {
         });
 
     } catch (err) {
+        console.log(err);
         return response.error(res, {
             message: "Internal server error.",
             err: err
@@ -101,6 +102,18 @@ const fetchComments = async (req, res) => {
         });
     }
 }
+
+const isValidImageUrl = (url) => {
+    try {
+        const parsed = new URL(url);
+
+        const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
+
+        return imageExtensions.some(ext => parsed.pathname.toLowerCase().endsWith(ext));
+    } catch {
+        return false;
+    }
+};
 
 module.exports = {
     addNewEntry,

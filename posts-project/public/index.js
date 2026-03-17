@@ -6,14 +6,14 @@ window.addEventListener("DOMContentLoaded", loadPosts)
 const apiEndpoint = "http://localhost:4000/posts";
 
 // CREATE POST
-form.addEventListener("submit", async function(e){
+form.addEventListener("submit", async function (e) {
 
     e.preventDefault()
 
-    const link = document.getElementById("link").value
+    const link = document.getElementById("imageUrl").value
     const description = document.getElementById("description").value
 
-    await axios.post(apiEndpoint,{
+    await axios.post(apiEndpoint, {
         link,
         description
     })
@@ -27,7 +27,7 @@ form.addEventListener("submit", async function(e){
 
 
 // GET POSTS
-async function loadPosts(){
+async function loadPosts() {
 
     const res = await axios.get(apiEndpoint)
 
@@ -40,6 +40,8 @@ async function loadPosts(){
         const div = document.createElement("div")
 
         div.className = "card mb-3"
+
+        
 
         div.innerHTML = `
 
@@ -85,19 +87,19 @@ async function loadPosts(){
 
 
 // TOGGLE COMMENT BOX
-function toggleComments(postId){
+function toggleComments(postId) {
 
     const section = document.getElementById(`commentSection-${postId}`)
 
     section.style.display =
-    section.style.display === "none" ? "block" : "none"
+        section.style.display === "none" ? "block" : "none"
 
 }
 
 
 
 // LOAD COMMENTS
-async function loadComments(postId){
+async function loadComments(postId) {
 
     const res = await axios.get(`${apiEndpoint}/${postId}/comments`)
 
@@ -105,7 +107,7 @@ async function loadComments(postId){
 
     const container = document.getElementById(`commentList-${postId}`)
 
-    if(!container) return
+    if (!container) return
 
     container.innerHTML = ""
 
@@ -124,16 +126,16 @@ async function loadComments(postId){
 
 
 // ADD COMMENT
-async function addComment(postId){
+async function addComment(postId) {
 
     const input = document.getElementById(`commentInput-${postId}`)
 
     const text = input.value
 
-    if(!text) return
+    if (!text) return
 
-    await axios.post(`${apiEndpoint}/${postId}/comments`,{
-        commentText:text,
+    await axios.post(`${apiEndpoint}/${postId}/comments`, {
+        commentText: text,
     })
 
     input.value = ""

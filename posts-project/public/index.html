@@ -3,48 +3,40 @@
 
 <head>
 
-<meta charset="UTF-8">
-<title>Post Feed</title>
+    <meta charset="UTF-8">
+    <title>Post Feed</title>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
 </head>
 
 <body class="bg-light">
 
-<div class="container mt-4">
+    <div class="container w-50 mt-4">
 
-<h3>Create Post</h3>
+        <h3>Create Post</h3>
 
-<form id="postForm">
+        <form id="postForm">
 
-<input 
-type="text" 
-id="imageUrl" 
-class="form-control mb-2" 
-placeholder="Enter Image URL"
-required>
+            <input type="text" id="imageUrl" class="form-control mb-2" placeholder="Enter Image URL" required>
 
-<textarea
-id="description"
-class="form-control mb-2"
-placeholder="Enter Description"
-required></textarea>
+            <textarea id="description" class="form-control mb-2" placeholder="Enter Description" required></textarea>
 
-<button class="btn btn-primary">Submit</button>
+            <button class="btn btn-primary">Submit</button>
 
-</form>
+        </form>
 
-<hr>
+        <hr>
 
-<h3>Posts</h3>
+        <h3>Posts</h3>
 
-<div id="postsContainer"></div>
+        <div id="postsContainer"></div>
 
-</div>
+    </div>
 
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script src="index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="index.js"></script>
 
 </body>
+
 </html>

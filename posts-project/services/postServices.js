@@ -10,6 +10,9 @@ exports.addPost = async(link, description) => {
 
 exports.fetchAllPost = async() => {
     const query = {
+            order: [
+                    ['id', 'DESC']
+            ],
             attributes:['id', 'link', 'description'],
             include: [{
                 model:Comment,
